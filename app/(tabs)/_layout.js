@@ -1,10 +1,16 @@
 import { Tabs } from "expo-router";
 
 export default function TabLayout() {
-    return(
+    return (
         <Tabs>
-            <Tabs.Screen name="index"/>
-            <Tabs.Screen name="home"/>
+            <Tabs.Screen name="index"
+                options={{
+                    headerShown: false,
+                    tabBarStyle:{
+                        display:"none",
+                    }
+                }} />
+            <Tabs.Screen name="chat" />
         </Tabs>
     );
 }
