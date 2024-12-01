@@ -4,7 +4,11 @@ import { Image } from 'expo-image';
 
 export default function Index() {
 
-    const googleIcon = require("../../assets/images/Facebook-Logo.png");
+    const googleIcon = require("../../assets/images/Google_Pay-Logo.png");
+    const facebookIcon = require("../../assets/images/Facebook-Logo.png");
+    const appleIcon = require("../../assets/images/Apple_Inc.-Logo.png");
+
+
 
     return (
         <SafeAreaView style={styles.container}>
@@ -15,8 +19,8 @@ export default function Index() {
                             <Text style={[styles.title, styles.carosBold, styles.h1]}>Log in to Chatbox</Text>
                             <Text style={[styles.textAlignCenter, styles.subTitle, styles.carosLight]}>Welcome back! Sign in using your social account or email to continue us</Text>
                         </View>
-                        <View style={[styles.justifyContentCenter,styles.alignItemsCenter]}>
-                            <Image source={googleIcon}/>
+                        <View style={[styles.justifyContentCenter, styles.alignItemsCenter]}>
+                            <Image source={googleIcon} />
                         </View>
                     </View>
                 </TouchableWithoutFeedback>
