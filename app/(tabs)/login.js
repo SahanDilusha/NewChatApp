@@ -6,10 +6,13 @@ import { useState } from "react";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useRouter } from "expo-router";
 
-export default function Index() {
+export default function Login() {
 
     const [show, setShow] = useState(true);
-    const [show1, setShow1] = useState(true);
+
+    const googleIcon = require("../../assets/images/Google_Pay-Logo.png");
+    const facebookIcon = require("../../assets/images/Facebook-Logo.png");
+    const appleIcon = require("../../assets/images/Apple_Inc.-Logo.png");
 
     const router = useRouter();
 
@@ -24,17 +27,18 @@ export default function Index() {
                             <AntDesign name="arrowleft" size={24} color="black" />
                         </Pressable>
                         <View style={[styles.titleView, styles.justifyContentCenter, styles.alignItemsCenter]}>
-                            <Text style={[styles.title, styles.carosBold, styles.h1]}>Sign up with Email</Text>
-                            <Text style={[styles.textAlignCenter, styles.subTitle, styles.carosLight]}>Get chatting with friends and family today by signing up for our chat app!</Text>
+                            <Text style={[styles.title, styles.carosBold, styles.h1]}>Log in to Chatbox</Text>
+                            <Text style={[styles.textAlignCenter, styles.subTitle, styles.carosLight]}>Welcome back! Sign in using your social account or email to continue us</Text>
                         </View>
-
-                        <View style={[styles.alignItemsCenter, styles.w_100, styles.gap10,styles.view]}>
+                        <View style={[styles.iconView, styles.justifyContentCenter, styles.alignItemsCenter, styles.flexRow, styles.alignItemsCenter, styles.justifyContentCenter]}>
+                            <Image source={googleIcon} style={styles.iconImage} />
+                            <Image source={facebookIcon} style={styles.iconImage} />
+                            <Image source={appleIcon} style={styles.iconImage} />
+                        </View>
+                        <Text style={[styles.carosLight, styles.text1]}>or</Text>
+                        <View style={[styles.alignItemsCenter, styles.w_100, styles.gap10]}>
                             <View style={[styles.w_100]}>
-                                <Text style={[styles.carosMedium, styles.subTitle, styles.color]}>Your Name</Text>
-                                <TextInput style={[styles.input, styles.carosMedium, styles.subTitle]} />
-                            </View>
-                            <View style={[styles.w_100]}>
-                                <Text style={[styles.carosMedium, styles.subTitle, styles.color]}>Your Email</Text>
+                                <Text style={[styles.carosMedium, styles.subTitle, styles.color]}>Email</Text>
                                 <TextInput style={[styles.input, styles.carosMedium, styles.subTitle]} inputMode="email" />
                             </View>
                             <View style={[styles.w_100]}>
@@ -46,19 +50,13 @@ export default function Index() {
                                     <FontAwesome name={show ? "eye-slash" : "eye"} size={24} color="#CDD1D3" />
                                 </Pressable>
                             </View>
-                            <View style={[styles.w_100]}>
-                                <Text style={[styles.carosMedium, styles.subTitle, styles.color]}>Confirm Password</Text>
-                                <TextInput style={[styles.input, styles.carosMedium, styles.subTitle]} secureTextEntry={show1} />
-                                <Pressable style={styles.eyeIcon} onPress={() => {
-                                    setShow1(!show1);
-                                }}>
-                                    <FontAwesome name={show1 ? "eye-slash" : "eye"} size={24} color="#CDD1D3" />
-                                </Pressable>
-                            </View>
                         </View>
                         <View style={[styles.justifyContentCenter, styles.alignItemsCenter, styles.gap10, styles.w_100, styles.pressableView]}>
                             <Pressable style={[styles.alignItemsCenter, styles.justifyContentCenter, styles.w_100, styles.pressable1]}>
-                                <Text style={[styles.carosMedium, styles.subTitle, styles.color2]}>Create an account</Text>
+                                <Text style={[styles.carosMedium, styles.subTitle, styles.color2]}>Login</Text>
+                            </Pressable>
+                            <Pressable style={[styles.justifyContentCenter, styles.alignItemsCenter, styles.w_100]}>
+                                <Text style={[styles.carosMedium, styles.subTitle, styles.color]}>Forgot Password?</Text>
                             </Pressable>
                         </View>
                     </View>
@@ -105,6 +103,21 @@ const styles = StyleSheet.create({
     textAlignCenter: {
         textAlign: "center",
     },
+    flexRow: {
+        flexDirection: "row",
+    },
+    iconView: {
+        gap: 30,
+        marginTop: 50,
+    },
+    iconImage: {
+        width: 50,
+        height: 50,
+        borderRadius: 50,
+        borderStyle: "solid",
+        borderColor: "#000",
+        borderWidth: 2,
+    },
     text1: {
         fontSize: 14,
         marginTop: 25,
@@ -141,12 +154,9 @@ const styles = StyleSheet.create({
         borderRadius: 20,
     },
     pressableView: {
-        bottom: -70,
+        bottom: -80,
     },
     pressable2: {
         alignSelf: "flex-start",
-    },
-    view:{
-        marginTop:20,
     },
 });

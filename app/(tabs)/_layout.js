@@ -6,8 +6,15 @@ export default function TabLayout() {
             <Tabs.Screen name="index"
                 options={{
                     headerShown: false,
-                    tabBarStyle:{
-                        display:"none",
+                    tabBarStyle: {
+                        display: "none",
+                    }
+                }} />
+            <Tabs.Screen name="login"
+                options={{
+                    headerShown: false,
+                    tabBarStyle: {
+                        display: "none",
                     }
                 }} />
             <Tabs.Screen name="chat" />
