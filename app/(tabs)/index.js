@@ -10,6 +10,10 @@ export default function Index() {
 
     const [show, setShow] = useState(true);
     const [show1, setShow1] = useState(true);
+    const [getName, setName] = useState("");
+    const [getEmail, setEmail] = useState("");
+    const [getPassword, setPassword] = useState("");
+    const [getConfirmPassword, setConfirmPassword] = useState("");
 
     const router = useRouter();
 
@@ -19,7 +23,7 @@ export default function Index() {
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                     <View style={[styles.container, styles.main, styles.alignItemsCenter]}>
                         <Pressable style={[styles.justifyContentCenter, styles.alignItemsCenter, styles.pressable2]} onPress={() => {
-                            router.replace("/(tabs)/chat");
+                            router.back();
                         }}>
                             <AntDesign name="arrowleft" size={24} color="black" />
                         </Pressable>
@@ -28,18 +32,24 @@ export default function Index() {
                             <Text style={[styles.textAlignCenter, styles.subTitle, styles.carosLight]}>Get chatting with friends and family today by signing up for our chat app!</Text>
                         </View>
 
-                        <View style={[styles.alignItemsCenter, styles.w_100, styles.gap10,styles.view]}>
+                        <View style={[styles.alignItemsCenter, styles.w_100, styles.gap10, styles.view]}>
                             <View style={[styles.w_100]}>
                                 <Text style={[styles.carosMedium, styles.subTitle, styles.color]}>Your Name</Text>
-                                <TextInput style={[styles.input, styles.carosMedium, styles.subTitle]} />
+                                <TextInput style={[styles.input, styles.carosMedium, styles.subTitle]} onChangeText={(text) => {
+                                    setName(text);
+                                }} />
                             </View>
                             <View style={[styles.w_100]}>
                                 <Text style={[styles.carosMedium, styles.subTitle, styles.color]}>Your Email</Text>
-                                <TextInput style={[styles.input, styles.carosMedium, styles.subTitle]} inputMode="email" />
+                                <TextInput style={[styles.input, styles.carosMedium, styles.subTitle]} inputMode="email" onChangeText={(text) => {
+                                    setEmail(text);
+                                }} />
                             </View>
                             <View style={[styles.w_100]}>
                                 <Text style={[styles.carosMedium, styles.subTitle, styles.color]}>Password</Text>
-                                <TextInput style={[styles.input, styles.carosMedium, styles.subTitle]} secureTextEntry={show} />
+                                <TextInput style={[styles.input, styles.carosMedium, styles.subTitle]} secureTextEntry={show} onChangeText={(text) => {
+                                    setPassword(text);
+                                }} />
                                 <Pressable style={styles.eyeIcon} onPress={() => {
                                     setShow(!show);
                                 }}>
@@ -48,7 +58,9 @@ export default function Index() {
                             </View>
                             <View style={[styles.w_100]}>
                                 <Text style={[styles.carosMedium, styles.subTitle, styles.color]}>Confirm Password</Text>
-                                <TextInput style={[styles.input, styles.carosMedium, styles.subTitle]} secureTextEntry={show1} />
+                                <TextInput style={[styles.input, styles.carosMedium, styles.subTitle]} secureTextEntry={show1} onChangeText={(text) => {
+                                    setConfirmPassword(text);
+                                }} />
                                 <Pressable style={styles.eyeIcon} onPress={() => {
                                     setShow1(!show1);
                                 }}>
@@ -57,7 +69,9 @@ export default function Index() {
                             </View>
                         </View>
                         <View style={[styles.justifyContentCenter, styles.alignItemsCenter, styles.gap10, styles.w_100, styles.pressableView]}>
-                            <Pressable style={[styles.alignItemsCenter, styles.justifyContentCenter, styles.w_100, styles.pressable1]}>
+                            <Pressable style={[styles.alignItemsCenter, styles.justifyContentCenter, styles.w_100, styles.pressable1]} onPress={async () => {
+
+                            }}>
                                 <Text style={[styles.carosMedium, styles.subTitle, styles.color2]}>Create an account</Text>
                             </Pressable>
                         </View>
@@ -146,7 +160,7 @@ const styles = StyleSheet.create({
     pressable2: {
         alignSelf: "flex-start",
     },
-    view:{
-        marginTop:20,
+    view: {
+        marginTop: 20,
     },
 });
