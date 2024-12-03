@@ -25,7 +25,8 @@
     "react-native-screens": "~4.1.0",
     "expo-blur": "~14.0.1",
     "react-native-reanimated": "~3.16.1",
-    "expo-linear-gradient": "~14.0.1"
+    "expo-linear-gradient": "~14.0.1",
+    "@shopify/flash-list": "1.7.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
