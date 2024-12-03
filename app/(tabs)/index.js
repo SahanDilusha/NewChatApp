@@ -1,13 +1,12 @@
 import React from "react";
-import { StyleSheet, Text, View, Pressable } from "react-native";
+import { StyleSheet, Text, View, Pressable, TextInput } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { FontAwesome, AntDesign, Ionicons } from "@expo/vector-icons";
+import { FontAwesome, AntDesign, Ionicons, Feather } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FlashList } from "@shopify/flash-list";
-import ContactItem from "../../component/ContactItem";
 
 
 export default function Index() {
@@ -33,7 +32,7 @@ export default function Index() {
                     <Text style={[styles.carosMedium, styles.subTitle]} numberOfLines={1}>Jhon Abraham</Text>
                     <Text style={styles.carosLight}>Online</Text>
                 </View>
-                <View style={[styles.flexRow,styles.justifyContentCenter, styles.alignItemsCenter, styles.gap15]}>
+                <View style={[styles.flexRow, styles.justifyContentCenter, styles.alignItemsCenter, styles.gap15]}>
                     <Pressable>
                         <Ionicons name="call-outline" size={24} color="black" />
                     </Pressable>
@@ -42,11 +41,17 @@ export default function Index() {
                     </Pressable>
                 </View>
             </View>
-            <View>
+            <View style={[styles.flex1]}>
 
             </View>
-            <View>
-
+            <View style={[styles.flexRow, styles.w_100, styles.justifyContentCenter, styles.alignItemsCenter, styles.gap10, styles.p_20]}>
+                <Pressable>
+                    <Feather name="paperclip" size={24} color="black" />
+                </Pressable>
+                <TextInput style={[styles.input, styles.flex1]} />
+                    <Pressable style={[styles.justifyContentCenter,styles.alignItemsCenter,styles.sendBtn]}>
+                        <Ionicons name="send" size={24} color="#fff" />
+                    </Pressable>
             </View>
         </SafeAreaView>
     );
@@ -57,7 +62,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     main: {
-        backgroundColor: "#000",
+        backgroundColor: "#fff",
     },
     alignItemsCenter: {
         alignItems: "center",
@@ -127,5 +132,17 @@ const styles = StyleSheet.create({
         width: 15,
         height: 15,
         borderRadius: 15,
+    },
+    input: {
+        paddingHorizontal: 10,
+        height: 50,
+        borderRadius: 20,
+        backgroundColor: "#cacbcc",
+    },
+    sendBtn:{
+        backgroundColor:"#20A090",
+        width:45,
+        height:45,
+        borderRadius:45,
     },
 });
