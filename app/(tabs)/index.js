@@ -1,137 +1,129 @@
-import { Keyboard, KeyboardAvoidingView, Platform, Pressable, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from "react-native";
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Image } from 'expo-image';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { useState } from "react";
-import AntDesign from '@expo/vector-icons/AntDesign';
-import { useRouter } from "expo-router";
-import MyAlert from "../../component/MyAlert";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import React from "react";
+import { StyleSheet, Text, View, Pressable } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { FontAwesome, AntDesign } from "@expo/vector-icons";
+import { Image } from "expo-image";
 
 export default function Index() {
 
-    const [show, setShow] = useState(true);
-    const [getPassword, setPassword] = useState("");
-    const [getEmail, setEmail] = useState("");
-    const [showAlert, setShowAlert] = useState(false);
-    const [getMsg, setMsg] = useState("");
-
-    const googleIcon = require("../../assets/images/Google_Pay-Logo.png");
-    const facebookIcon = require("../../assets/images/Facebook-Logo.png");
-    const appleIcon = require("../../assets/images/Apple_Inc.-Logo.png");
-
-    const router = useRouter();
-    const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+    const logo = require("../../assets/images/logo.png");
 
     return (
-        <SafeAreaView style={styles.container}>
-            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={styles.container}>
-                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                    <View style={[styles.container, styles.main, styles.alignItemsCenter]}>
-                        <Pressable style={[styles.justifyContentCenter, styles.alignItemsCenter, styles.ph_20,styles.pressable2]} onPress={() => {
-                            router.back();
-                        }}>
-                            <AntDesign name="arrowleft" size={24} color="black" />
-                        </Pressable>
-                        <View style={[styles.titleView, styles.ph_20,styles.justifyContentCenter, styles.alignItemsCenter]}>
-                            <Text style={[styles.title, styles.carosBold, styles.h1]}>Log in to Chatbox</Text>
-                            <Text style={[styles.textAlignCenter, styles.subTitle, styles.carosLight]}>Welcome back! Sign in using your social account or email to continue us</Text>
-                        </View>
-                        <View style={[styles.iconView, styles.justifyContentCenter, styles.alignItemsCenter, styles.flexRow, styles.alignItemsCenter, styles.justifyContentCenter]}>
-                            <Image source={googleIcon} style={styles.iconImage} />
-                            <Image source={facebookIcon} style={styles.iconImage} />
-                            <Image source={appleIcon} style={styles.iconImage} />
-                        </View>
-                        <Text style={[styles.carosLight, styles.text1]}>or</Text>
-                        <View style={[styles.alignItemsCenter, styles.w_100, styles.gap10,styles.ph_20]}>
-                            <View style={[styles.w_100]}>
-                                <Text style={[styles.carosMedium, styles.subTitle, styles.color]}>Email</Text>
-                                <TextInput style={[styles.input, styles.carosMedium, styles.subTitle]} inputMode="email" onChangeText={(text) => {
-                                    setEmail(text);
-                                }} />
-                            </View>
-                            <View style={[styles.w_100]}>
-                                <Text style={[styles.carosMedium, styles.subTitle, styles.color]}>Password</Text>
-                                <TextInput style={[styles.input, styles.carosMedium, styles.subTitle]} secureTextEntry={show} onChangeText={(text) => {
-                                    setPassword(text);
-                                }} />
-                                <Pressable style={styles.eyeIcon} onPress={() => {
-                                    setShow(!show);
-                                }}>
-                                    <FontAwesome name={show ? "eye-slash" : "eye"} size={24} color="#CDD1D3" />
-                                </Pressable>
-                            </View>
-                        </View>
-                        <View style={[styles.justifyContentCenter, styles.alignItemsCenter, styles.gap10, styles.w_100, styles.pressableView,styles.ph_20]}>
-                            <Pressable style={[styles.alignItemsCenter, styles.justifyContentCenter, styles.w_100, styles.pressable1]} onPress={async () => {
-                                try {
-                                    const response = await fetch(`${apiUrl}Login`, {
-                                        method: 'POST',
-                                        headers: {
-                                            'Content-Type': 'application/json',
-                                        },
-                                        body: JSON.stringify({
-                                            email: getEmail,
-                                            password: getPassword,
-                                        }),
-                                    });
+        <LinearGradient
+            colors={["#43116A", "#0A1832", "#1A1A1A"]}
+            style={styles.container}
+            start={{ x: 0.5, y: 0 }}
+            end={{ x: 0.5, y: 1 }}
+        >
+            <View style={styles.header}>
+                <Image source={logo} style={styles.logo} />
+            </View>
 
-                                    if (response.ok) {
-                                        const json = await response.json();
+            <View style={styles.titleSection}>
+                <Text style={[styles.title, styles.carosBold]}>Connect friends easily & quickly</Text>
+                <Text style={[styles.subtitle, styles.carosMedium]}>
+                    Our chat app is the perfect way to stay connected with friends and family.
+                </Text>
+            </View>
 
-                                        if (json.status) {
-                                            console.log("ok");
-                                            await AsyncStorage.setItem(JSON.stringify(json.content));
-                                            router.replace("/(tabs)/home");
-                                        } else {
-                                            setMsg(json.content);
-                                            setShowAlert(true);
-                                        }
+            {/* Social Buttons Section */}
+            <View style={styles.socialButtons}>
+                <Pressable style={[styles.socialButton, styles.facebook]}>
+                    <FontAwesome name="facebook" size={24} color="#fff" />
+                </Pressable>
+                <Pressable style={[styles.socialButton, styles.google]}>
+                    <AntDesign name="google" size={24} color="#fff" />
+                </Pressable>
+                <Pressable style={[styles.socialButton, styles.apple]}>
+                    <AntDesign name="apple1" size={24} color="#fff" />
+                </Pressable>
+            </View>
+            <Text style={[styles.subtitle2, styles.carosMedium]}>
+                or
+            </Text>
+            <Pressable style={styles.signupButton}>
+                <Text style={[styles.signupText,styles.carosMedium]}>Sign up with mail</Text>
+            </Pressable>
 
-                                    } else {
-                                        console.log(response.statusText);
-                                        setMsg("Can't process your request at this time. Please try again later.");
-                                        setShowAlert(true);
-                                    }
-
-                                } catch (error) {
-                                    console.log(error);
-                                    setMsg("Can't process your request at this time. Please try again later.");
-                                    setShowAlert(true);
-                                }
-                            }}>
-                                <Text style={[styles.carosMedium, styles.subTitle, styles.color2]}>Login</Text>
-                            </Pressable>
-                            <Pressable style={[styles.justifyContentCenter, styles.alignItemsCenter, styles.w_100]}>
-                                <Text style={[styles.carosMedium, styles.subTitle, styles.color]}>Forgot Password?</Text>
-                            </Pressable>
-                        </View>
-                        {
-                            showAlert && <MyAlert msg={getMsg} title={"Warning"} setShow={setShowAlert} type={"warning"} />
-                        }
-                    </View>
-                </TouchableWithoutFeedback>
-            </KeyboardAvoidingView>
-        </SafeAreaView>
+            <Text style={styles.footer}>
+                Existing account? <Text style={[styles.loginLink,styles.carosBold]}>Log in</Text>
+            </Text>
+        </LinearGradient>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        padding: 20,
+        justifyContent: "space-between",
     },
-    main: {
-        backgroundColor: "#ffffff",
+    header: {
+        alignItems: "center",
+        marginTop: 50,
     },
-    alignItemsCenter: {
+    logo: {
+        width: 160,
+        height: 40,
+    },
+
+    titleSection: {
         alignItems: "center",
     },
-    justifyContentCenter: {
+    title: {
+        fontSize: 36,
+        color: "#fff",
+        textAlign: "left",
+    },
+    subtitle: {
+        marginTop: 10,
+        fontSize: 16,
+        color: "#aaa",
+        textAlign: "center",
+        maxWidth: "80%",
+    },
+    socialButtons: {
+        flexDirection: "row",
+        justifyContent: "space-evenly",
+        marginHorizontal: 30,
+    },
+    socialButton: {
+        width: 60,
+        height: 60,
+        borderRadius: 30,
+        alignItems: "center",
         justifyContent: "center",
     },
-    titleView: {
-        gap: 10,
-        marginTop: 20,
+    facebook: {
+        backgroundColor: "#1877F2",
+    },
+    google: {
+        backgroundColor: "#DB4437",
+    },
+    apple: {
+        backgroundColor: "#000",
+    },
+    signupButton: {
+        backgroundColor: "#fff",
+        paddingVertical: 15,
+        borderRadius: 25,
+        marginHorizontal: 30,
+        alignItems: "center",
+    },
+    signupText: {
+        color: "#000",
+        fontSize: 16,
+        fontWeight: "bold",
+    },
+    footer: {
+        textAlign: "center",
+        fontSize: 14,
+        color: "#fff",
+        marginBottom: 20,
+    },
+    loginLink: {
+        color: "#fff",
+        textDecorationLine: "underline",
     },
     carosMedium: {
         fontFamily: "CarosMedium",
@@ -142,73 +134,10 @@ const styles = StyleSheet.create({
     carosBold: {
         fontFamily: "CarosBold",
     },
-    h1: {
-        fontSize: 24,
-    },
-    subTitle: {
+    subtitle2:{
+        marginTop: 10,
         fontSize: 16,
-    },
-    textAlignCenter: {
+        color: "#aaa",
         textAlign: "center",
-    },
-    flexRow: {
-        flexDirection: "row",
-    },
-    iconView: {
-        gap: 30,
-        marginTop: 50,
-    },
-    iconImage: {
-        width: 50,
-        height: 50,
-        borderRadius: 50,
-        borderStyle: "solid",
-        borderColor: "#000",
-        borderWidth: 2,
-    },
-    text1: {
-        fontSize: 14,
-        marginTop: 25,
-        marginBottom: 25,
-    },
-    w_100: {
-        width: "100%",
-    },
-    color: {
-        color: "#24786D",
-    },
-    input: {
-        width: "100%",
-        height: 50,
-        borderStyle: 'solid',
-        borderBottomColor: "#CDD1D0",
-        borderBottomWidth: 2,
-        paddingHorizontal: 30,
-    },
-    gap10: {
-        gap: 40,
-    },
-    eyeIcon: {
-        position: "absolute",
-        right: 0,
-        top: 30,
-    },
-    color2: {
-        color: "#fff",
-    },
-    pressable1: {
-        backgroundColor: "#24786D",
-        height: 50,
-        borderRadius: 20,
-    },
-    pressableView: {
-        bottom: -80,
-    },
-    pressable2: {
-        alignSelf: "flex-start",
-        marginTop:10,
-    },
-    ph_20: {
-        paddingHorizontal: 20,
-    },
+    }
 });
