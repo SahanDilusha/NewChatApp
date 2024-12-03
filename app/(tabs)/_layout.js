@@ -13,6 +13,9 @@ export default function TabLayout() {
                     tabBarStyle: {
                         height: 60,
                     },
+                    tabBarStyle: {
+                        display: "none",
+                    }
                 }}
             />
 
@@ -20,6 +23,9 @@ export default function TabLayout() {
                 options={{
                     headerShown: false,
                     href: null,
+                    tabBarStyle: {
+                        display: "none",
+                    },
                 }} />
             <Tabs.Screen name="login"
                 options={{

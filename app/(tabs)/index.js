@@ -11,40 +11,42 @@ import ContactItem from "../../component/ContactItem";
 
 
 export default function Index() {
-    const logo = require("../../assets/images/logo.png");
+    const logo = require("../../assets/images/dp.png");
     const data = [{}, {}, {}, {}, {}, {}, {}, {}];
+    const router = useRouter();
     return (
         <SafeAreaView style={styles.flex1}>
             <StatusBar style="dark" />
-            <View style={[styles.main, styles.flex1]}>
-                <View style={[styles.header, styles.w_100, styles.p_20, styles.gap30]}>
-                    <View style={[styles.flexRow, styles.alignItemsCenter, styles.justifyContentBetween, styles.w_100]}>
-                        <Pressable style={[styles.pressable1, styles.justifyContentCenter, styles.alignItemsCenter]}>
-                            <AntDesign name="search1" size={20} color="#fff" />
-                        </Pressable>
-                        <Image source={logo} style={styles.logo} />
-                        <Pressable style={[styles.justifyContentCenter, styles.alignItemsCenter]}>
-                            <Image source={logo} style={styles.pressable1} />
-                        </Pressable>
-                    </View>
-                    <View style={[styles.w_100, styles.flexRow, styles.gap10]}>
-                        <Pressable style={[styles.justifyContentCenter, styles.alignItemsCenter, styles.gap10]}>
-                            <Image source={logo} style={styles.pressable2} />
-                            <Text style={[styles.carosMedium, styles.color1]}>My Status</Text>
-                            <Ionicons style={[styles.absolute, styles.icon1]} name="add-circle-sharp" size={24} color="#fff" />
-                        </Pressable>
-                        <View style={[styles.flex1]}>
-                            <FlashList estimatedItemSize={200} horizontal style={styles.flex1} numColumns={1} data={data} renderItem={(item) => <Pressable style={[styles.justifyContentCenter, styles.alignItemsCenter, styles.gap10, styles, styles.ml20]}>
-                                <Image source={logo} style={styles.pressable2} />
-                                <Text style={[styles.carosMedium, styles.color1]}>My Status</Text>
-                            </Pressable>
-                            } />
-                        </View>
-                    </View>
+            <View style={[styles.flexRow, styles.w_100, styles.gap10, styles.alignItemsCenter, styles.p_20]}>
+                <View style={[styles.flexRow, styles.gap10, styles.justifyContentCenter, styles.alignItemsCenter,]}>
+                    <Pressable onPress={() => {
+                        router.back();
+                    }} style={[styles.justifyContentCenter, styles.alignItemsCenter]}>
+                        <AntDesign name="arrowleft" size={24} color="black" />
+                    </Pressable>
+                    <Pressable>
+                        <Image source={logo} style={styles.img1} />
+                        <View style={[styles.absolute, styles.view1]}></View>
+                    </Pressable>
                 </View>
-                <View style={[styles.flex1, styles.view1, styles.p_20]}>
-                    <FlashList showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false} style={styles.flex1} data={data} estimatedItemSize={200} renderItem={() => <ContactItem />} />
+                <View style={[styles.gap10, styles.flex1]}>
+                    <Text style={[styles.carosMedium, styles.subTitle]} numberOfLines={1}>Jhon Abraham</Text>
+                    <Text style={styles.carosLight}>Online</Text>
                 </View>
+                <View style={[styles.flexRow,styles.justifyContentCenter, styles.alignItemsCenter, styles.gap15]}>
+                    <Pressable>
+                        <Ionicons name="call-outline" size={24} color="black" />
+                    </Pressable>
+                    <Pressable>
+                        <AntDesign name="videocamera" size={24} color="black" />
+                    </Pressable>
+                </View>
+            </View>
+            <View>
+
+            </View>
+            <View>
+
             </View>
         </SafeAreaView>
     );
@@ -79,18 +81,13 @@ const styles = StyleSheet.create({
         fontSize: 24,
     },
     subTitle: {
-        fontSize: 16,
+        fontSize: 18,
     },
     w_100: {
         width: "100%",
     },
     header: {
         height: "30%",
-    },
-    view1: {
-        backgroundColor: "#fff",
-        borderTopLeftRadius: 40,
-        borderTopEndRadius: 40,
     },
     p_20: {
         padding: 20,
@@ -102,22 +99,6 @@ const styles = StyleSheet.create({
     flexRow: {
         flexDirection: 'row',
     },
-    pressable1: {
-        borderStyle: "solid",
-        borderWidth: 1,
-        borderColor: "#fff",
-        width: 40,
-        height: 40,
-        borderRadius: 40,
-    },
-    pressable2: {
-        borderStyle: "solid",
-        borderWidth: 2,
-        borderColor: "#fff",
-        width: 60,
-        height: 60,
-        borderRadius: 60,
-    },
     gap30: {
         gap: 30,
     },
@@ -127,14 +108,24 @@ const styles = StyleSheet.create({
     gap10: {
         gap: 10,
     },
+    gap15: {
+        gap: 15,
+    },
     absolute: {
         position: "absolute",
     },
-    icon1: {
-        top: 0,
-        left: 0,
-    },
     ml20: {
         marginLeft: 20,
+    },
+    img1: {
+        width: 50,
+        height: 50,
+        borderRadius: 50,
+    },
+    view1: {
+        backgroundColor: "#3fd47d",
+        width: 15,
+        height: 15,
+        borderRadius: 15,
     },
 });
