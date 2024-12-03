@@ -5,6 +5,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useState } from "react";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useRouter } from "expo-router";
+import MyAlert from "../../component/MyAlert";
 
 export default function Index() {
 
@@ -14,25 +15,27 @@ export default function Index() {
     const [getEmail, setEmail] = useState("");
     const [getPassword, setPassword] = useState("");
     const [getConfirmPassword, setConfirmPassword] = useState("");
+    const [showAlert, setShowAlert] = useState(true);
 
     const router = useRouter();
+    const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 
     return (
         <SafeAreaView style={styles.container}>
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={styles.container}>
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                     <View style={[styles.container, styles.main, styles.alignItemsCenter]}>
-                        <Pressable style={[styles.justifyContentCenter, styles.alignItemsCenter, styles.pressable2]} onPress={() => {
+                        <Pressable style={[styles.justifyContentCenter, styles.alignItemsCenter, styles.pressable2, styles.ph_20]} onPress={() => {
                             router.back();
                         }}>
                             <AntDesign name="arrowleft" size={24} color="black" />
                         </Pressable>
-                        <View style={[styles.titleView, styles.justifyContentCenter, styles.alignItemsCenter]}>
+                        <View style={[styles.titleView, styles.justifyContentCenter, styles.alignItemsCenter, styles.ph_20]}>
                             <Text style={[styles.title, styles.carosBold, styles.h1]}>Sign up with Email</Text>
                             <Text style={[styles.textAlignCenter, styles.subTitle, styles.carosLight]}>Get chatting with friends and family today by signing up for our chat app!</Text>
                         </View>
 
-                        <View style={[styles.alignItemsCenter, styles.w_100, styles.gap10, styles.view]}>
+                        <View style={[styles.alignItemsCenter, styles.w_100, styles.gap10, styles.view, styles.ph_20]}>
                             <View style={[styles.w_100]}>
                                 <Text style={[styles.carosMedium, styles.subTitle, styles.color]}>Your Name</Text>
                                 <TextInput style={[styles.input, styles.carosMedium, styles.subTitle]} onChangeText={(text) => {
@@ -68,13 +71,48 @@ export default function Index() {
                                 </Pressable>
                             </View>
                         </View>
-                        <View style={[styles.justifyContentCenter, styles.alignItemsCenter, styles.gap10, styles.w_100, styles.pressableView]}>
-                            <Pressable style={[styles.alignItemsCenter, styles.justifyContentCenter, styles.w_100, styles.pressable1]} onPress={async () => {
+                        <View style={[styles.justifyContentCenter, styles.alignItemsCenter, styles.gap10, styles.w_100, styles.pressableView, styles.ph_20]}>
+                            <Pressable style={[styles.alignItemsCenter, styles.justifyContentCenter, styles.w_100, styles.pressable1,]} onPress={async () => {
 
+                                try {
+
+                                    const response = await fetch(`${apiUrl}SignUp`, {
+                                        method: 'POST',
+                                        body: JSON.stringify({
+                                            name: getName,
+                                            email: getEmail,
+                                            password: getPassword,
+                                            confirmPassword: getConfirmPassword,
+                                        }),
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                        }
+                                    });
+
+                                    if (response.ok) {
+                                        const json = await response.json();
+
+                                        if (json.status) {
+                                            console.log("ok");
+                                        } else {
+                                            console.log("error");
+                                        }
+
+                                    } else {
+                                        console.log(response.statusText);
+                                    }
+
+                                } catch (error) {
+                                    console.log(error);
+                                }
                             }}>
                                 <Text style={[styles.carosMedium, styles.subTitle, styles.color2]}>Create an account</Text>
                             </Pressable>
                         </View>
+                        {
+                            showAlert && <MyAlert msg={"Hello"} title={"Title"} setShow={setShowAlert} type={"warning"}/>
+                        }
+
                     </View>
                 </TouchableWithoutFeedback>
             </KeyboardAvoidingView>
@@ -88,8 +126,6 @@ const styles = StyleSheet.create({
     },
     main: {
         backgroundColor: "#ffffff",
-        paddingHorizontal: 20,
-        paddingVertical: 20,
     },
     alignItemsCenter: {
         alignItems: "center",
@@ -159,8 +195,12 @@ const styles = StyleSheet.create({
     },
     pressable2: {
         alignSelf: "flex-start",
+        marginTop: 20,
     },
     view: {
         marginTop: 20,
+    },
+    ph_20: {
+        paddingHorizontal: 20,
     },
 });
