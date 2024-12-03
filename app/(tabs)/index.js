@@ -7,6 +7,7 @@ import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FlashList } from "@shopify/flash-list";
+import ContactItem from "../../component/ContactItem";
 
 
 export default function Index() {
@@ -33,7 +34,7 @@ export default function Index() {
                             <Ionicons style={[styles.absolute, styles.icon1]} name="add-circle-sharp" size={24} color="#fff" />
                         </Pressable>
                         <View style={[styles.flex1]}>
-                            <FlashList estimatedItemSize={200} horizontal style={styles.flex1} numColumns={1} data={data} renderItem={(item) => <Pressable style={[styles.justifyContentCenter, styles.alignItemsCenter, styles.gap10,styles,styles.ml20]}>
+                            <FlashList estimatedItemSize={200} horizontal style={styles.flex1} numColumns={1} data={data} renderItem={(item) => <Pressable style={[styles.justifyContentCenter, styles.alignItemsCenter, styles.gap10, styles, styles.ml20]}>
                                 <Image source={logo} style={styles.pressable2} />
                                 <Text style={[styles.carosMedium, styles.color1]}>My Status</Text>
                             </Pressable>
@@ -41,8 +42,8 @@ export default function Index() {
                         </View>
                     </View>
                 </View>
-                <View style={[styles.flex1, styles.view1]}>
-
+                <View style={[styles.flex1, styles.view1, styles.p_20]}>
+                    <FlashList showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false} style={styles.flex1} data={data} estimatedItemSize={200} renderItem={() => <ContactItem />} />
                 </View>
             </View>
         </SafeAreaView>
@@ -135,7 +136,7 @@ const styles = StyleSheet.create({
         top: 0,
         left: 0,
     },
-    ml20:{
-        marginLeft:20,
+    ml20: {
+        marginLeft: 20,
     },
 });

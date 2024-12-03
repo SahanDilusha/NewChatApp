@@ -74,7 +74,6 @@ const styles = StyleSheet.create({
         width: 160,
         height: 40,
     },
-
     titleSection: {
         alignItems: "center",
     },
@@ -147,5 +146,5 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: "#aaa",
         textAlign: "center",
-    }
+    },
 });
