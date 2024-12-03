@@ -3,10 +3,12 @@ import { StyleSheet, Text, View, Pressable } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { FontAwesome, AntDesign } from "@expo/vector-icons";
 import { Image } from "expo-image";
+import { useRouter } from "expo-router";
 
 export default function Index() {
 
     const logo = require("../../assets/images/logo.png");
+    const router = useRouter();
 
     return (
         <LinearGradient
@@ -41,13 +43,19 @@ export default function Index() {
             <Text style={[styles.subtitle2, styles.carosMedium]}>
                 or
             </Text>
-            <Pressable style={styles.signupButton}>
-                <Text style={[styles.signupText,styles.carosMedium]}>Sign up with mail</Text>
+            <Pressable style={styles.signupButton} onPress={() => {
+                router.replace("/(tabs)/signup");
+            }}>
+                <Text style={[styles.signupText, styles.carosMedium]}>Sign up with mail</Text>
             </Pressable>
 
-            <Text style={styles.footer}>
-                Existing account? <Text style={[styles.loginLink,styles.carosBold]}>Log in</Text>
-            </Text>
+            <Pressable onPress={() => {
+                router.replace("/(tabs)/login");
+            }}>
+                <Text style={styles.footer}>
+                    Existing account? <Text style={[styles.loginLink, styles.carosBold]}>Log in</Text>
+                </Text>
+            </Pressable>
         </LinearGradient>
     );
 }
@@ -134,7 +142,7 @@ const styles = StyleSheet.create({
     carosBold: {
         fontFamily: "CarosBold",
     },
-    subtitle2:{
+    subtitle2: {
         marginTop: 10,
         fontSize: 16,
         color: "#aaa",

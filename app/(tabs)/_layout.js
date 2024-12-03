@@ -10,6 +10,13 @@ export default function TabLayout() {
                         display: "none",
                     }
                 }} />
+            <Tabs.Screen name="signup"
+                options={{
+                    headerShown: false,
+                    tabBarStyle: {
+                        display: "none",
+                    }
+                }} />
             <Tabs.Screen name="login"
                 options={{
                     headerShown: false,
@@ -17,7 +24,7 @@ export default function TabLayout() {
                         display: "none",
                     }
                 }} />
-                <Tabs.Screen name="home"
+            <Tabs.Screen name="home"
                 options={{
                     headerShown: false,
                     tabBarStyle: {
