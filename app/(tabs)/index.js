@@ -15,7 +15,8 @@ export default function Index() {
     const [getEmail, setEmail] = useState("");
     const [getPassword, setPassword] = useState("");
     const [getConfirmPassword, setConfirmPassword] = useState("");
-    const [showAlert, setShowAlert] = useState(true);
+    const [showAlert, setShowAlert] = useState(false);
+    const [getMsg,setMsg] = useState("");
 
     const router = useRouter();
     const apiUrl = process.env.EXPO_PUBLIC_API_URL;
@@ -94,8 +95,10 @@ export default function Index() {
 
                                         if (json.status) {
                                             console.log("ok");
+                                            router.replace("/(tabs)/home");
                                         } else {
-                                            console.log("error");
+                                            setMsg(json.content);
+                                            setShowAlert(true);
                                         }
 
                                     } else {
@@ -110,7 +113,7 @@ export default function Index() {
                             </Pressable>
                         </View>
                         {
-                            showAlert && <MyAlert msg={"Hello"} title={"Title"} setShow={setShowAlert} type={"warning"}/>
+                            showAlert && <MyAlert msg={getMsg} title={"Warning"} setShow={setShowAlert} type={"warning"}/>
                         }
 
                     </View>

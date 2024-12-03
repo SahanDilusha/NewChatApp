@@ -17,6 +17,13 @@ export default function TabLayout() {
                         display: "none",
                     }
                 }} />
+                <Tabs.Screen name="home"
+                options={{
+                    headerShown: false,
+                    tabBarStyle: {
+                        display: "none",
+                    }
+                }} />
             <Tabs.Screen name="chat" />
         </Tabs>
     );
