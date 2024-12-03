@@ -48,8 +48,6 @@ export default function Index() {
             </View>
         </SafeAreaView>
     );
-
-
 }
 
 const styles = StyleSheet.create({
