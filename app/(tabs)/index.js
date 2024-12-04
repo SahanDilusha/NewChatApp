@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { StyleSheet, Text, View, Pressable, TextInput } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { FontAwesome, AntDesign, Ionicons, Feather } from "@expo/vector-icons";
@@ -7,7 +7,7 @@ import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FlashList } from "@shopify/flash-list";
-
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function Index() {
 
@@ -15,34 +15,64 @@ export default function Index() {
     const [getText, setText] = useState("");
 
     const logo = require("../../assets/images/dp.png");
-    const data = [{}, {}, {}, {}, {}, {}, {}, {}];
+
     const router = useRouter();
     const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+    const apiSocket = process.env.EXPO_PUBLIC_API_SOCKET;
+    const ws = new WebSocket(`${apiSocket}GetChatWebSocket`);
 
-    async function getChat() {
+    useEffect(() => {
 
-        try {
-            const response =await fetch(`${apiUrl}GetChat`);
+        ws.onopen = () => {
+            ws.send(JSON.stringify(
+                {
+                    "fromUser": 8,
+                    "toUser": 9,
+                }
+            ));
+        };
 
-            if (response.ok) {
-                
-                const json = await response.json();
-
-                if (json.status) {
-                    setData(json.content);
-                } else {
-                    console.logo(json.content);
+        ws.onmessage = (event) => {
+            try {
+                try {
+                    const receivedData = JSON.parse(event.data);
+                    console.log(receivedData.content);
+                    setData(receivedData.content);
+                } catch (error) {
+                    console.error("Error parsing WebSocket data:", error);
                 }
 
-            } else {
-                console.log("error2");
+            } catch (error) {
+                console.error("Error parsing WebSocket data:", error);
             }
+        };
 
-        } catch (error) {
-            console.log("error1");
-        }
+        ws.onerror = (error) => {
+            console.error("WebSocket encountered an error:", error);
+        };
 
-    }
+        ws.close = (event) => {
+            console.log("WebSocket connection closed:", event);
+        };
+
+
+    }, []);
+
+
+    useFocusEffect(useCallback(() => {
+        const interval = setInterval(() => {
+            ws.send(JSON.stringify({
+                "fromUser": 8,
+                "toUser": 9,
+            }));
+        }, 5000);
+
+        return () => {
+            clearInterval(interval);
+            ws.close();
+        };
+    }, []));
+
 
     return (
         <SafeAreaView style={styles.flex1}>
