@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View, Pressable, TextInput } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { FontAwesome, AntDesign, Ionicons, Feather } from "@expo/vector-icons";
@@ -10,9 +10,40 @@ import { FlashList } from "@shopify/flash-list";
 
 
 export default function Index() {
+
+    const [getData, setData] = useState([]);
+    const [getText, setText] = useState("");
+
     const logo = require("../../assets/images/dp.png");
     const data = [{}, {}, {}, {}, {}, {}, {}, {}];
     const router = useRouter();
+    const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+
+    async function getChat() {
+
+        try {
+            const response =await fetch(`${apiUrl}GetChat`);
+
+            if (response.ok) {
+                
+                const json = await response.json();
+
+                if (json.status) {
+                    setData(json.content);
+                } else {
+                    console.logo(json.content);
+                }
+
+            } else {
+                console.log("error2");
+            }
+
+        } catch (error) {
+            console.log("error1");
+        }
+
+    }
+
     return (
         <SafeAreaView style={styles.flex1}>
             <StatusBar style="dark" />
@@ -41,17 +72,56 @@ export default function Index() {
                     </Pressable>
                 </View>
             </View>
-            <View style={[styles.flex1]}>
-
+            <View style={[styles.flex1, styles.p_20]}>
+                <FlashList style={styles.flex1} estimatedItemSize={200} data={getData} renderItem={() =>
+                    <Pressable style={[styles.mb10, styles.gap10]}>
+                        <View style={[styles.justifyContentCenter, styles.alignItemsCenter, styles.view2]}>
+                            <Text style={[styles.carosMedium, styles.color1]}>fjfv jvfdvfdjvm fvdefrvc edrfvc</Text>
+                        </View>
+                        <Text style={[styles.text1, styles.carosLight]}>9:50 AM</Text>
+                    </Pressable>} />
             </View>
             <View style={[styles.flexRow, styles.w_100, styles.justifyContentCenter, styles.alignItemsCenter, styles.gap10, styles.p_20]}>
                 <Pressable>
                     <Feather name="paperclip" size={24} color="black" />
                 </Pressable>
-                <TextInput style={[styles.input, styles.flex1]} />
-                    <Pressable style={[styles.justifyContentCenter,styles.alignItemsCenter,styles.sendBtn]}>
-                        <Ionicons name="send" size={24} color="#fff" />
-                    </Pressable>
+                <TextInput style={[styles.input, styles.flex1]} onChangeText={(text) => {
+                    setText(text);
+                }} />
+                <Pressable style={[styles.justifyContentCenter, styles.alignItemsCenter, styles.sendBtn]} onPress={async () => {
+
+                    const from = new FormData();
+                    from.append("text", getText);
+                    from.append("fromUser", 9);
+                    from.append("toUser", 8);
+                    from.append("type", 1);
+
+                    try {
+
+                        const response = await fetch(`${apiUrl}SaveChat`, {
+                            method: 'POST',
+                            body: from,
+                        });
+
+                        if (response.ok) {
+                            const json = await response.json();
+
+                            if (json.status) {
+                                console.log("true");
+                            } else {
+                                console.log("error1");
+                            }
+
+                        } else {
+                            console.log("error");
+                        }
+
+                    } catch (error) {
+                        console.log("error");
+                    }
+                }}>
+                    <Ionicons name="send" size={24} color="#fff" />
+                </Pressable>
             </View>
         </SafeAreaView>
     );
@@ -139,10 +209,24 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         backgroundColor: "#cacbcc",
     },
-    sendBtn:{
-        backgroundColor:"#20A090",
-        width:45,
-        height:45,
-        borderRadius:45,
+    sendBtn: {
+        backgroundColor: "#20A090",
+        width: 45,
+        height: 45,
+        borderRadius: 45,
+    },
+    view2: {
+        backgroundColor: "#20A090",
+        alignSelf: "flex-end",
+        padding: 15,
+        borderStartStartRadius: 20,
+        borderBottomStartRadius: 20,
+        borderBottomEndRadius: 20,
+    },
+    mb10: {
+        marginBottom: 15,
+    },
+    text1: {
+        alignSelf: "flex-end",
     },
 });
