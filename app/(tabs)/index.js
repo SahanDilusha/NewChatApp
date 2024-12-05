@@ -1,18 +1,22 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { StyleSheet, Text, View, Pressable, TextInput } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { FontAwesome5, AntDesign, Ionicons, Feather } from "@expo/vector-icons";
+import { FontAwesome5, AntDesign, Ionicons, Feather, EvilIcons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FlashList } from "@shopify/flash-list";
 import { useFocusEffect } from "@react-navigation/native";
+import { BlurView } from "expo-blur";
+import Animated, { FadeInDown, FadeOutDown } from "react-native-reanimated";
+import { Audio } from "expo-av";
 
 export default function Index() {
 
     const [getData, setData] = useState([]);
     const [getText, setText] = useState("");
+    const [showShare, setShowShare] = useState(true);
 
     const logo = require("../../assets/images/dp.png");
 
@@ -26,8 +30,8 @@ export default function Index() {
         ws.onopen = () => {
             ws.send(JSON.stringify(
                 {
-                    "fromUser": 8,
-                    "toUser": 9,
+                    "fromUser": 9,
+                    "toUser": 8,
                 }
             ));
         };
@@ -62,8 +66,8 @@ export default function Index() {
     useFocusEffect(useCallback(() => {
         const interval = setInterval(() => {
             ws.send(JSON.stringify({
-                "fromUser": 8,
-                "toUser": 9,
+                "fromUser": 9,
+                "toUser": 8,
             }));
         }, 5000);
 
@@ -75,7 +79,7 @@ export default function Index() {
 
 
     return (
-        <SafeAreaView style={styles.flex1}>
+        <SafeAreaView style={[styles.flex1]}>
             <StatusBar style="dark" />
             <View style={[styles.flexRow, styles.w_100, styles.gap10, styles.alignItemsCenter, styles.p_20]}>
                 <View style={[styles.flexRow, styles.gap10, styles.justifyContentCenter, styles.alignItemsCenter,]}>
@@ -102,7 +106,7 @@ export default function Index() {
                     </Pressable>
                 </View>
             </View>
-            <View style={[styles.flex1, styles.p_20]}>
+            <View style={[styles.flex1, styles.p_10]}>
                 <FlashList style={styles.flex1} estimatedItemSize={200} data={getData} renderItem={({ item }) =>
                     <Pressable style={[styles.mb10, styles.gap10, item.fromUser === 9 ? styles.alignSelfEnd : styles.alignSelfStart]}>
                         <View style={[styles.justifyContentCenter, styles.alignItemsCenter, item.fromUser === 9 ? styles.view2 : styles.view3]}>
@@ -111,14 +115,19 @@ export default function Index() {
                         <Text style={[styles.text1, styles.carosLight]}>9:50 AM {item.fromUser === 9 ? <FontAwesome5 name={item.status === 1 ? "check" : "check-double"} size={12} color={item.status === 1 ? "#919190" : "#23db9e"} /> : null}</Text>
                     </Pressable>} />
             </View>
-            <View style={[styles.flexRow, styles.w_100, styles.justifyContentCenter, styles.alignItemsCenter, styles.gap10, styles.p_20]}>
-                <Pressable>
+            <View style={[styles.flexRow, styles.view, styles.w_100, styles.justifyContentCenter, styles.alignItemsCenter, styles.gap15, styles.p_10]}>
+                <Pressable onPress={() => {
+                    setShowShare(!showShare);
+                }}>
                     <Feather name="paperclip" size={24} color="black" />
                 </Pressable>
                 <TextInput style={[styles.input, styles.flex1]} onChangeText={(text) => {
                     setText(text);
                 }} />
-                <Pressable style={[styles.justifyContentCenter, styles.alignItemsCenter, styles.sendBtn]} onPress={async () => {
+                <Pressable style={[styles.btn, styles.justifyContentCenter, styles.alignItemsCenter]}>
+                    <Feather name="mic" size={24} color="black" />
+                </Pressable>
+                <Pressable style={[styles.justifyContentCenter, styles.absolute, styles.alignItemsCenter, styles.sendBtn, styles.btn]} onPress={async () => {
 
                     const from = new FormData();
                     from.append("text", getText);
@@ -153,6 +162,64 @@ export default function Index() {
                     <Ionicons name="send" size={24} color="#fff" />
                 </Pressable>
             </View>
+
+            {
+                showShare && <Animated.View entering={FadeInDown} exiting={FadeOutDown} style={[styles.w_100, styles.h_100, styles.absolute, { bottom: 0 }]}>
+                    <BlurView style={[styles.w_100, styles.h_100,]} tint={"dark"}>
+                        <Pressable style={[styles.flex1]} onPress={() => {
+                            setShowShare(!showShare);
+                        }}></Pressable>
+                        <View style={[styles.w_100, styles.view4, styles.p_20, styles.gap30]}>
+                            <View style={[styles.w_100, styles.justifyContentCenter, styles.alignItemsCenter]}>
+                                <Pressable style={[styles.alignSelfStart, styles.flexRow, styles.absolute,]} onPress={() => {
+                                    setShowShare(!showShare);
+                                }}>
+                                    <AntDesign name="close" size={24} color="black" />
+                                </Pressable>
+                                <Text style={[styles.carosBold, styles.subTitle]}>Share Content</Text>
+                            </View>
+                            <View style={[styles.p_10, styles.gap30]}>
+                                <Pressable style={[styles.flexRow, styles.gap15]}>
+                                    <View style={[styles.alignItemsCenter, styles.justifyContentCenter, styles.view5]}>
+                                        <AntDesign name="camerao" size={30} color="#797C7B" />
+                                    </View>
+                                    <View style={[styles.flex1, styles.gap10, styles.justifyContentCenter,]}>
+                                        <Text style={[styles.carosBold]}>Camera</Text>
+                                    </View>
+                                </Pressable>
+                                <Pressable style={[styles.flexRow, styles.gap15, styles.alignItemsCenter]}>
+                                    <View style={[styles.justifyContentCenter, styles.alignItemsCenter, styles.view5]}>
+                                        <AntDesign name="file1" size={30} color="#797C7B" />
+                                    </View>
+                                    <View style={[styles.flex1, styles.gap10, styles.justifyContentCenter,]}>
+                                        <Text style={[styles.carosBold]}>Documents</Text>
+                                        <Text>Share your files</Text>
+                                    </View>
+                                </Pressable>
+                                <Pressable style={[styles.flexRow, styles.gap15, styles.alignItemsCenter]}>
+                                    <View style={[styles.justifyContentCenter, styles.alignItemsCenter, styles.view5]}>
+                                        <Feather name="bar-chart" size={30} color="#797C7B" />
+                                    </View>
+                                    <View style={[styles.flex1, styles.gap10, styles.justifyContentCenter,]}>
+                                        <Text style={[styles.carosBold]}>Create a poll</Text>
+                                        <Text>Create a poll for any querry</Text>
+                                    </View>
+                                </Pressable>
+                                <Pressable style={[styles.flexRow, styles.gap15, styles.alignItemsCenter]}>
+                                    <View style={[styles.justifyContentCenter, styles.alignItemsCenter, styles.view5]}>
+                                        <EvilIcons name="location" size={30} color="#797C7B" />
+                                    </View>
+                                    <View style={[styles.flex1, styles.gap10, styles.justifyContentCenter,]}>
+                                        <Text style={[styles.carosBold]}>Location</Text>
+                                        <Text>Share your location</Text>
+                                    </View>
+                                </Pressable>
+                            </View>
+                        </View>
+                    </BlurView>
+                </Animated.View>
+            }
+
         </SafeAreaView>
     );
 }
@@ -236,14 +303,18 @@ const styles = StyleSheet.create({
     input: {
         paddingHorizontal: 10,
         height: 50,
-        borderRadius: 20,
+        borderRadius: 30,
         backgroundColor: "#cacbcc",
+        paddingRight: 50,
+    },
+    btn: {
+        width: 48,
+        height: 48,
+        borderRadius: 45,
     },
     sendBtn: {
         backgroundColor: "#20A090",
-        width: 45,
-        height: 45,
-        borderRadius: 45,
+        right: 70,
     },
     view2: {
         backgroundColor: "#20A090",
@@ -255,9 +326,9 @@ const styles = StyleSheet.create({
     view3: {
         backgroundColor: "#7d7d7c",
         padding: 15,
-        borderStartStartRadius: 20,
         borderBottomStartRadius: 20,
         borderBottomEndRadius: 20,
+        borderTopEndRadius: 20,
     },
     alignSelfEnd: {
         alignSelf: "flex-end",
@@ -270,5 +341,23 @@ const styles = StyleSheet.create({
     },
     text1: {
         alignSelf: "flex-end",
+    },
+    h_100: {
+        height: "100%",
+    },
+    view4: {
+        backgroundColor: "#fff",
+        height: "75%",
+        borderTopStartRadius: 40,
+        borderTopEndRadius: 40,
+    },
+    p_10: {
+        padding: 10,
+    },
+    view5: {
+        backgroundColor: "#F2F8F7",
+        width: 60,
+        height: 60,
+        borderRadius: 60,
     },
 });
