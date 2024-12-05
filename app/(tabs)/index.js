@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { StyleSheet, Text, View, Pressable, TextInput } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { FontAwesome, AntDesign, Ionicons, Feather } from "@expo/vector-icons";
+import { FontAwesome5, AntDesign, Ionicons, Feather } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -103,12 +103,12 @@ export default function Index() {
                 </View>
             </View>
             <View style={[styles.flex1, styles.p_20]}>
-                <FlashList style={styles.flex1} estimatedItemSize={200} data={getData} renderItem={() =>
-                    <Pressable style={[styles.mb10, styles.gap10]}>
-                        <View style={[styles.justifyContentCenter, styles.alignItemsCenter, styles.view2]}>
-                            <Text style={[styles.carosMedium, styles.color1]}>fjfv jvfdvfdjvm fvdefrvc edrfvc</Text>
+                <FlashList style={styles.flex1} estimatedItemSize={200} data={getData} renderItem={({ item }) =>
+                    <Pressable style={[styles.mb10, styles.gap10, item.fromUser === 9 ? styles.alignSelfEnd : styles.alignSelfStart]}>
+                        <View style={[styles.justifyContentCenter, styles.alignItemsCenter, item.fromUser === 9 ? styles.view2 : styles.view3]}>
+                            <Text style={[styles.carosMedium, styles.color1]}>{item.text}</Text>
                         </View>
-                        <Text style={[styles.text1, styles.carosLight]}>9:50 AM</Text>
+                        <Text style={[styles.text1, styles.carosLight]}>9:50 AM {item.fromUser === 9 ? <FontAwesome5 name={item.status === 1 ? "check" : "check-double"} size={12} color={item.status === 1 ? "#919190" : "#23db9e"} /> : null}</Text>
                     </Pressable>} />
             </View>
             <View style={[styles.flexRow, styles.w_100, styles.justifyContentCenter, styles.alignItemsCenter, styles.gap10, styles.p_20]}>
@@ -247,11 +247,23 @@ const styles = StyleSheet.create({
     },
     view2: {
         backgroundColor: "#20A090",
-        alignSelf: "flex-end",
         padding: 15,
         borderStartStartRadius: 20,
         borderBottomStartRadius: 20,
         borderBottomEndRadius: 20,
+    },
+    view3: {
+        backgroundColor: "#7d7d7c",
+        padding: 15,
+        borderStartStartRadius: 20,
+        borderBottomStartRadius: 20,
+        borderBottomEndRadius: 20,
+    },
+    alignSelfEnd: {
+        alignSelf: "flex-end",
+    },
+    alignSelfStart: {
+        alignSelf: "flex-start",
     },
     mb10: {
         marginBottom: 15,
